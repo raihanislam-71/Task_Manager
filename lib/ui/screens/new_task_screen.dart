@@ -38,6 +38,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
       body: Padding(
         padding: const EdgeInsets.only(top: 4, left: 4, right: 4),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildSummarySection(),
             const SizedBox(height: 8),
