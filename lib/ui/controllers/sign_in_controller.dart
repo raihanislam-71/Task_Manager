@@ -8,10 +8,10 @@ import 'auth_controller.dart';
 
 class SignInController  extends GetxController{
   bool _signInApiInProgress = false;
-  String _errorMessage = '';
+  String _errorMassage = '';
 
   bool get signInApiInProgress => _signInApiInProgress;
-  String get errorMessage => _errorMessage;
+  String get errorMessage => _errorMassage;
 
   Future<bool> signIn(String email, String password) async {
     bool isSuccess = false;
@@ -35,7 +35,7 @@ class SignInController  extends GetxController{
       await AuthController.saveUserData(loginModel.userModel!);
       isSuccess = true;
     } else {
-      _errorMessage =  response.errorMassage ?? "Login failed! try again";
+      _errorMassage =  response.errorMassage ?? "Login failed! try again";
     }
     _signInApiInProgress = false;
     update();

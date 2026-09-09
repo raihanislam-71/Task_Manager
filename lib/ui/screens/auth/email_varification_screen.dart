@@ -1,8 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:task_manager_app/data/models/network_response.dart';
-import 'package:task_manager_app/data/network_caller/network_caller.dart';
-import 'package:task_manager_app/data/utilities/urls.dart';
+import 'package:get/get.dart';
+import 'package:task_manager_app/ui/controllers/email_varification_controller.dart';
 import 'package:task_manager_app/ui/screens/auth/pin_varification_screen.dart';
 import 'package:task_manager_app/ui/widgets/snack_bar_message.dart';
 
@@ -19,7 +18,6 @@ class EmailVarificationScreen extends StatefulWidget {
 
 class _EmailVarificationScreenState extends State<EmailVarificationScreen> {
   final TextEditingController _emailTEController = TextEditingController();
-  bool _emailVarificationInProgress = false;
 
   @override
   Widget build(BuildContext context) {
@@ -48,19 +46,19 @@ class _EmailVarificationScreenState extends State<EmailVarificationScreen> {
                     decoration: InputDecoration(hintText: 'Email'),
                   ),
                   const SizedBox(height: 16),
-                  Visibility(
-                    visible: _emailVarificationInProgress == false,
-                    replacement: const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (_emailTEController.text.trim().isNotEmpty) {
-                          _emailVarification(_emailTEController.text.trim());
-                        }
-                      },
-                      child: const Icon(Icons.arrow_circle_right_outlined),
-                    ),
+                  GetBuilder<EmailVarificationController>(
+                    builder: (emailVarificationController) {
+                      return Visibility(
+                        visible: emailVarificationController.emailVarificationInProgress == false,
+                        replacement: const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        child: ElevatedButton(
+                          onPressed: _onTapConfirmButton,
+                          child: const Icon(Icons.arrow_circle_right_outlined),
+                        ),
+                      );
+                    }
                   ),
                   const SizedBox(height: 36),
                   Center(
@@ -92,45 +90,23 @@ class _EmailVarificationScreenState extends State<EmailVarificationScreen> {
     );
   }
 
-  Future<void> _emailVarification(String email) async {
-    _emailVarificationInProgress = true;
-    if (mounted) {
-      setState(() {});
-    }
-
-    NetworkResponse response = await NetworkCaller.getRequest(
-      Urls.recoverVerifyEmail(email),
-    );
-
-    _emailVarificationInProgress = false;
-    if (mounted) {
-      setState(() {});
-    }
-
-    if (response.isSuccess && response.responseData['status'] == 'success') {
-      _onTapConfirmButton();
-    } else {
-      if (mounted) {
-        showSnackBarMessage(
-          context,
-          response.responseData?['data'] ?? "Verification failed! Try again.",
-        );
-      }
-    }
-  }
-
   void _onTapSingInButton() {
     Navigator.pop(context);
   }
 
-  void _onTapConfirmButton() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) =>
-            PinVarificationScreen(email: _emailTEController.text.trim()),
-      ),
-    );
+  Future<void> _onTapConfirmButton() async {
+    if (_emailTEController.text.trim().isNotEmpty) {
+      final EmailVarificationController emailVarificationController = Get.find<EmailVarificationController>();
+      final bool result = await emailVarificationController.emailVarification(_emailTEController.text.trim());
+
+      if(result){
+        Get.to(() => PinVarificationScreen(email: _emailTEController.text.trim()));
+      }else{
+        if(mounted){
+          showSnackBarMessage(context, emailVarificationController.errorMassage);
+        }
+      }
+    }
   }
 
   @override

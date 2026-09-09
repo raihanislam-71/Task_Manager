@@ -46,6 +46,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       controller: _emailTEController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(hintText: 'Email'),
+                      textInputAction: TextInputAction.next,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (String? value) {
                         if (value?.trim().isEmpty ?? true) {
@@ -152,6 +153,9 @@ class _SignInScreenState extends State<SignInScreen> {
       );
       if (result) {
         Get.offAll(() => const MainBottomNavScreen());
+        if(mounted){
+          showSnackBarMessage(context, 'Login Successful!');
+        }
       } else {
         if (mounted) {
           showSnackBarMessage(context, signInController.errorMessage);
@@ -161,17 +165,11 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   void _onTapSingUpButton() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const SignUpScreen()),
-    );
+    Get.to(()=> const SignUpScreen());
   }
 
   void _onTapForgotPasswordButton() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const EmailVarificationScreen()),
-    );
+    Get.to(() => const EmailVarificationScreen());
   }
 
   @override

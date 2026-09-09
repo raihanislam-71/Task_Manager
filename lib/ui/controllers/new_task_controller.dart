@@ -26,6 +26,7 @@ class NewTaskController extends GetxController {
         response.responseData,
       );
       _taskList = taskListWrapperModel.taskList ?? [];
+      isSuccess = true;
     } else {
       _errorMessage =
           response.errorMassage ?? 'Get new task failed! try again.';
