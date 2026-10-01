@@ -1,16 +1,23 @@
 # task_manager_app
 
-A new Flutter project.
+## 📱 App Screenshots
 
-## Getting Started
+### 🔑 Authentication Flow
+| Splash Screen | Login Screen | Sign Up Screen |
+| :---: | :---: | :---: |
+| <img src="a.png" width="220"/> | <img src="b.png" width="220"/> | <img src="f.png" width="220"/> |
 
-This project is a starting point for a Flutter application.
+| PIN Verification | Set Password |
+| :---: | :---: |
+| <img src="d.png" width="220"/> | <img src="e.png" width="220"/> |
 
-A few resources to get you started if this is your first Flutter project:
+---
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### 📋 Task Management & Dashboard
+| Dashboard / New Task | Add New Task | In Progress Tasks |
+| :---: | :---: | :---: |
+| <img src="g.png" width="220"/> | <img src="h.png" width="220"/> | <img src="i.png" width="220"/> |
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+| Canceled Tasks | Completed Tasks |
+| :---: | :---: |
+| <img src="j.png" width="220"/> | <img src="k.png" width="220"/> |
